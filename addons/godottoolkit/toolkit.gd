@@ -1,9 +1,9 @@
 extends Node
 
-func array_to_string(INPUT : Array) -> String:
+func array_to_continuous_string(INPUT : Array) -> String:
 	var s = ""
 	for i in INPUT:
-		s += String(i)+" "
+		s += str(i)+" "
 	return s
 
 func string_to_bool(INPUT : String) -> bool:
