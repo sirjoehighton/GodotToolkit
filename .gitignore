@@ -13,9 +13,3 @@ export_presets.cfg
 .mono/
 data_*/
 mono_crash.*.json
-
-# Extra Ignores
-dev.gd
-dev.tscn
-images/
-README.md
