@@ -73,3 +73,35 @@ func error_lookup(ERROR_CODE : int) -> Dictionary:
 		return error_dictionary[ERROR_CODE]
 	else:
 		return {"name": "ERR_UNKNOWN", "description": "No description available."}
+
+func http_get_request(url: String, custom_headers: PackedStringArray = PackedStringArray()) -> Dictionary:
+	var http = HTTPRequest.new()
+	get_tree().root.call_deferred("add_child", http)
+	await http.tree_entered
+	http.request(url, custom_headers)
+	var response = await http.request_completed
+	var parsed_dict = {
+		"result": response[0],
+		"response_code": response[1],
+		"headers": response[2],
+		"body": response[3],
+		"json_body": JSON.parse_string(response[3].get_string_from_utf8())
+	}
+	http.queue_free()
+	return parsed_dict
+
+func http_post_request(url: String, custom_headers: PackedStringArray = PackedStringArray(), payload: String = "") -> Dictionary:
+	var http = HTTPRequest.new()
+	get_tree().root.call_deferred("add_child", http)
+	await http.tree_entered
+	http.request(url, custom_headers, HTTPClient.METHOD_POST, payload)
+	var response = await http.request_completed
+	var parsed_dict = {
+		"result": response[0],
+		"response_code": response[1],
+		"headers": response[2],
+		"body": response[3],
+		"json_body": JSON.parse_string(response[3].get_string_from_utf8())
+	}
+	http.queue_free()
+	return parsed_dict
