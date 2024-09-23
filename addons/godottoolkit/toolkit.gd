@@ -101,8 +101,7 @@ func http_result_code_lookup(RESULT_CODE : int) -> Dictionary:
 ## For making awaitable GET requests in one line of code
 func http_get_request(url: String, custom_headers: PackedStringArray = PackedStringArray()) -> Dictionary:
 	if not url:
-		push_error("[GodotToolkit] HTTPRequest URL Error: URL can't be empty")
-		printerr("[GodotToolkit] HTTPRequest URL Error: URL can't be empty")
+		push_error("HTTPRequest URL Error: URL can't be empty")
 		return {}
 	var http = HTTPRequest.new()
 	get_tree().root.call_deferred("add_child", http)
@@ -119,21 +118,18 @@ func http_get_request(url: String, custom_headers: PackedStringArray = PackedStr
 	http.queue_free()
 	if err != OK:
 		var error = error_lookup(err)
-		var error_msg = "[GodotToolkit] HTTPRequest %s: %s" % [error.name, error.description]
+		var error_msg = "HTTPRequest %s: %s" % [error.name, error.description]
 		push_error(error_msg)
-		printerr(error_msg)
 	if parsed_dict.result != OK:
 		var result_lookup = http_result_code_lookup(parsed_dict.result)
-		var result_msg = "[GodotToolkit] HTTPRequest %s: %s" % [result_lookup.name, result_lookup.description]
+		var result_msg = "HTTPRequest %s: %s" % [result_lookup.name, result_lookup.description]
 		push_error(result_msg)
-		printerr(result_msg)
 	return parsed_dict
 
 ## For making awaitable POST requests in one line of code
 func http_post_request(url: String, custom_headers: PackedStringArray = PackedStringArray(), payload: String = "") -> Dictionary:
 	if not url:
-		push_error("[GodotToolkit] HTTPRequest URL Error: URL can't be empty")
-		printerr("[GodotToolkit] HTTPRequest URL Error: URL can't be empty")
+		push_error("HTTPRequest URL Error: URL can't be empty")
 		return {}
 	var http = HTTPRequest.new()
 	get_tree().root.call_deferred("add_child", http)
@@ -150,12 +146,10 @@ func http_post_request(url: String, custom_headers: PackedStringArray = PackedSt
 	http.queue_free()
 	if err != OK:
 		var error = error_lookup(err)
-		var error_msg = "[GodotToolkit] HTTPRequest %s: %s" % [error.name, error.description]
+		var error_msg = "HTTPRequest %s: %s" % [error.name, error.description]
 		push_error(error_msg)
-		printerr(error_msg)
 	if parsed_dict.result != OK:
 		var result_lookup = http_result_code_lookup(parsed_dict.result)
-		var result_msg = "[GodotToolkit] HTTPRequest %s: %s" % [result_lookup.name, result_lookup.description]
+		var result_msg = "HTTPRequest %s: %s" % [result_lookup.name, result_lookup.description]
 		push_error(result_msg)
-		printerr(result_msg)
 	return parsed_dict
