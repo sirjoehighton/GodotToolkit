@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="design/github_the_godot_toolkit_banner.png" width="1920" alt="The Godot Toolkit Banner">
+</p>
 # 🛠 GodotToolkit
 GodotToolkit is a toolkit built to make your life easier when working with the Godot Engine. It contains a variety of scripts and features that simplify repetitive tasks, letting you focus on the fun parts of game development. The toolkit is open-source and released under the MIT license, meaning you're free to use it in both personal and commercial projects.
 # 🤝 Contributing
