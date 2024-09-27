@@ -52,6 +52,23 @@ var error_dictionary = {
 	48: {"name": "Printer on Fire", "description": "Whoa! The Printer's on fire call the Fire Department. (Just kidding this one's an easter egg)"},
 }
 
+var http_result_code_dictionary = {
+	0: {"name": "Success", "description": "Request successful."},
+	1: {"name": "Chunked Body Size Mismatch", "description": "Chunked Body Size Mismatch."},
+	2: {"name": "Can`t Connect", "description": "Request failed while connecting."},
+	3: {"name": "Can`t Resolve", "description": "Request failed while resolving."},
+	4: {"name": "Conection Error", "description": "Request failed due to connection (read/write) error."},
+	5: {"name": "TLS Handshake Error", "description": "Request failed on TLS handshake."},
+	6: {"name": "No Response", "description": "Request does not have a response (yet)."},
+	7: {"name": "Body Size Limit Exceeded", "description": "Request exceeded its maximum size limit."},
+	8: {"name": "Body Decompress Failed", "description": "Body Decompress Failed."},
+	9: {"name": "Request Failed", "description": "Request failed."},
+	10: {"name": "Download File Can't Open", "description": "HTTPRequest couldn't open the download file."},
+	11: {"name": "Download File Write Error", "description": "HTTPRequest couldn't write to the download file."},
+	12: {"name": "Redirect Limit Reached", "description": "Request reached its maximum redirect limit."},
+	13: {"name": "Timeout", "description": "Request failed due to a timeout."},
+}
+
 ## For Converting Strings to Booleans
 func string_to_bool(INPUT : String) -> bool:
 	var str = INPUT.strip_edges().to_lower()
@@ -73,3 +90,66 @@ func error_lookup(ERROR_CODE : int) -> Dictionary:
 		return error_dictionary[ERROR_CODE]
 	else:
 		return {"name": "ERR_UNKNOWN", "description": "No description available."}
+
+## For Looking up HTTP Result Code Names & Descriptions
+func http_result_code_lookup(RESULT_CODE : int) -> Dictionary:
+	if RESULT_CODE in http_result_code_dictionary:
+		return http_result_code_dictionary[RESULT_CODE]
+	else:
+		return {"name": "RESULT_UNKNOWN", "description": "No description available."}
+
+## For making awaitable GET requests in one line of code
+func http_get_request(url: String, custom_headers: PackedStringArray = PackedStringArray()) -> Dictionary:
+	if not url:
+		push_error("HTTPRequest URL Error: URL can't be empty")
+		return {}
+	var http = HTTPRequest.new()
+	get_tree().root.call_deferred("add_child", http)
+	await http.tree_entered
+	var err = http.request(url, custom_headers)
+	var response = await http.request_completed
+	var parsed_dict = {
+		"result": response[0],
+		"response_code": response[1],
+		"headers": response[2],
+		"body": response[3],
+		"json_body": JSON.parse_string(response[3].get_string_from_utf8())
+	}
+	http.queue_free()
+	if err != OK:
+		var error = error_lookup(err)
+		var error_msg = "HTTPRequest %s: %s" % [error.name, error.description]
+		push_error(error_msg)
+	if parsed_dict.result != OK:
+		var result_lookup = http_result_code_lookup(parsed_dict.result)
+		var result_msg = "HTTPRequest %s: %s" % [result_lookup.name, result_lookup.description]
+		push_error(result_msg)
+	return parsed_dict
+
+## For making awaitable POST requests in one line of code
+func http_post_request(url: String, custom_headers: PackedStringArray = PackedStringArray(), payload: String = "") -> Dictionary:
+	if not url:
+		push_error("HTTPRequest URL Error: URL can't be empty")
+		return {}
+	var http = HTTPRequest.new()
+	get_tree().root.call_deferred("add_child", http)
+	await http.tree_entered
+	var err = http.request(url, custom_headers, HTTPClient.METHOD_POST, payload)
+	var response = await http.request_completed
+	var parsed_dict = {
+		"result": response[0],
+		"response_code": response[1],
+		"headers": response[2],
+		"body": response[3],
+		"json_body": JSON.parse_string(response[3].get_string_from_utf8())
+	}
+	http.queue_free()
+	if err != OK:
+		var error = error_lookup(err)
+		var error_msg = "HTTPRequest %s: %s" % [error.name, error.description]
+		push_error(error_msg)
+	if parsed_dict.result != OK:
+		var result_lookup = http_result_code_lookup(parsed_dict.result)
+		var result_msg = "HTTPRequest %s: %s" % [result_lookup.name, result_lookup.description]
+		push_error(result_msg)
+	return parsed_dict
