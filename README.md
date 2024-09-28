@@ -3,7 +3,7 @@
 </p>
 
 ## 📖 About
-The GodotToolkit is a toolkit built to make your life easier when working with the Godot Engine. It contains a variety of tools hence the name of the project and features that simplify repetitive tasks, letting you focus on the fun parts of game development. The toolkit is open-source and released under the MIT license, meaning you're free to use it in both personal and commercial projects.
+A toolkit designed to make your work with the Godot Engine easier is called the GodotToolkit. Its comprehensive toolkit with all-purpose handy tools as well as features that streamline repetitive tasks and code, The best part is you are allowed to use the toolkit for both personal and commercial projects because it is open-source and licensed under the MIT license.
 ## ⚠️ Reporting Bugs
 If you ever find anything not working as intended feel free to file a bug report to [Issues](https://github.com/sirjoehighton/GodotToolkit/issues) with details such as the Version of the plugin in which you are using and the current Godot Version you are using this plugin with.
 ## 🔄 Contributing
