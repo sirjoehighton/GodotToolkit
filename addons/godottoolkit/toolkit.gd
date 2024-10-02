@@ -1,6 +1,6 @@
 extends Node
 
-var error_dictionary = {
+var error_dictionary : Dictionary = {
 	0: {"name": "Ok", "description": "All systems go! No errors found here."},
 	1: {"name": "Failed", "description": "Oops, something went wrong."},
 	2: {"name": "Unavailable", "description": "The resource you're looking for isn't available."},
@@ -52,7 +52,7 @@ var error_dictionary = {
 	48: {"name": "Printer on Fire", "description": "Whoa! The Printer's on fire call the Fire Department. (Just kidding this one's an easter egg)"},
 }
 
-var http_result_code_dictionary = {
+var http_result_code_dictionary : Dictionary = {
 	0: {"name": "Success", "description": "Request successful."},
 	1: {"name": "Chunked Body Size Mismatch", "description": "Chunked Body Size Mismatch."},
 	2: {"name": "Can`t Connect", "description": "Request failed while connecting."},
