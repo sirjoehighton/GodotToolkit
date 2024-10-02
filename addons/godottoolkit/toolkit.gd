@@ -153,3 +153,7 @@ func http_post_request(url: String, custom_headers: PackedStringArray = PackedSt
 		var result_msg = "HTTPRequest %s: %s" % [result_lookup.name, result_lookup.description]
 		push_error(result_msg)
 	return parsed_dict
+
+## For setting the volume of the corrosponding audio bus name
+func set_audio_bus_volume(AUDIO_BUS_NAME : String, VOLUME_DB : float):
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(AUDIO_BUS_NAME), VOLUME_DB)
