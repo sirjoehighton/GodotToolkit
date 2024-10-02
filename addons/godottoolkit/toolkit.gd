@@ -158,6 +158,7 @@ func http_post_request(url: String, custom_headers: PackedStringArray = PackedSt
 func set_audio_bus_volume(AUDIO_BUS_NAME : String, VOLUME_DB : float):
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(AUDIO_BUS_NAME), VOLUME_DB)
 
+## For setting the current windowed window on the current screen is sat on to the center of that specific screen.
 func center_window_to_screen():
 	var DisplayScreenSize = DisplayServer.screen_get_size(DisplayServer.window_get_current_screen())
 	var DisplayWindowSize = DisplayServer.window_get_size()
